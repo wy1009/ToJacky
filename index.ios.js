@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AppRegistry, NavigatorIOS, Text, TouchableHighLigh, View } from 'react-native'
+import { AppRegistry, NavigatorIOS } from 'react-native'
 import ProjectList from './app/ProjectList.js'
 
 export default class ToJacky extends Component {
@@ -8,7 +8,8 @@ export default class ToJacky extends Component {
       <NavigatorIOS
         initialRoute={{
           component: ProjectList,
-          title: '项目列表'
+          title: '项目列表',
+          rightButtonTitle: '+1',
         }}
         style={{ flex: 1 }}
       />
