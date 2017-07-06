@@ -35,7 +35,6 @@ export default class ProjectDetail extends Component {
         { key: 9, createTime: '2015-06-08', visible: false },
         { key: 10, createTime: '2015-06-08', visible: false },
       ],
-      showText: false
     }
   }
 

@@ -26,8 +26,10 @@ export default class ProjectList extends Component {
     this.state = {
       projectList: [],
     }
-    storage.getAllDataForKey('project').then(projectList => {
-      this.state.projectList = projectList
+    storage.getIdsForKey('project').then(projectList => {
+      this.setState({
+        projectList: projectList
+      })
     })
   }
 
@@ -42,10 +44,10 @@ export default class ProjectList extends Component {
           data={ this.state.projectList }
           renderItem={ ({item}) => 
             <TouchableHighlight
-              onPress={ () => this.navigateTo({ component: ProjectDetail, title: item.key }) }
+              onPress={ () => this.navigateTo({ component: ProjectDetail, title: item }) }
               underlayColor='#ededed'>
               <View style={ styles.item }>
-                <Text style={{ lineHeight: 30, }}>{ item.key }</Text>
+                <Text style={{ lineHeight: 30, }}>{ item }</Text>
               </View>
             </TouchableHighlight>
           }
