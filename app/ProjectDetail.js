@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native'
+import storage from './Storage.js'
 
 const styles = StyleSheet.create({
   container: {
@@ -23,19 +24,15 @@ export default class ProjectDetail extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      detailList: [
-        { key: 1, createTime: '2015-06-08', visible: false },
-        { key: 2, createTime: '2015-06-08', visible: false },
-        { key: 3, createTime: '2015-06-08', visible: false },
-        { key: 4, createTime: '2015-06-08', visible: false },
-        { key: 5, createTime: '2015-06-08', visible: false },
-        { key: 6, createTime: '2015-06-08', visible: false },
-        { key: 7, createTime: '2015-06-08', visible: false },
-        { key: 8, createTime: '2015-06-08', visible: false },
-        { key: 9, createTime: '2015-06-08', visible: false },
-        { key: 10, createTime: '2015-06-08', visible: false },
-      ],
+      detailList: []
     }
+
+    storage.load({
+      key: 'project',
+      id: this.props.id,
+    }).then(ret => {
+      console.log(ret)
+    })
   }
 
   toggleContentShow (index) {

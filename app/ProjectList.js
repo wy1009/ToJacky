@@ -42,9 +42,10 @@ export default class ProjectList extends Component {
       <View style={ styles.container }>
         <FlatList
           data={ this.state.projectList }
+          keyExtractor={ (item) => item }
           renderItem={ ({item}) => 
             <TouchableHighlight
-              onPress={ () => this.navigateTo({ component: ProjectDetail, title: item }) }
+              onPress={ () => this.navigateTo({ component: ProjectDetail, title: item, passProps: { id: item } }) }
               underlayColor='#ededed'>
               <View style={ styles.item }>
                 <Text style={{ lineHeight: 30, }}>{ item }</Text>
