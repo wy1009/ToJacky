@@ -39,7 +39,7 @@ export default class ProjectDetail extends Component {
     }
   }
 
-  _toggleContentShow (index) {
+  toggleContentShow (index) {
     this.state.detailList[index].visible = !this.state.detailList[index].visible
     this.setState({
       detailList: this.state.detailList
@@ -56,7 +56,7 @@ export default class ProjectDetail extends Component {
             <View>
               <TouchableOpacity
                 style={ styles.label }
-                onPress={ () => this._toggleContentShow(index) }>
+                onPress={ () => this.toggleContentShow(index) }>
                 <Text style={{ lineHeight: 30, }}>{ item.createTime }</Text>
               </TouchableOpacity>
               {
