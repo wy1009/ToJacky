@@ -24,21 +24,24 @@ export default class ProjectDetail extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      detailList: []
+      commentList: []
     }
 
     storage.load({
       key: 'project',
       id: this.props.id,
     }).then(ret => {
-      console.log(ret)
+      this.setState({
+        commentList: ret.comments
+      })
+      console.log(typeof ret.comments[0].createTime)
     })
   }
 
   toggleContentShow (index) {
-    this.state.detailList[index].visible = !this.state.detailList[index].visible
+    this.state.commentList[index].visible = !this.state.commentList[index].visible
     this.setState({
-      detailList: this.state.detailList
+      commentList: this.state.commentList
     })
   }
 
@@ -46,7 +49,7 @@ export default class ProjectDetail extends Component {
     return (
       <View style={ styles.container }>
         <FlatList
-          data={ this.state.detailList }
+          data={ this.state.commentList }
           extraData={ this.state }
           renderItem={ ({ item, index }) => 
             <View>

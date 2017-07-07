@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableHighlight } from 'react-nati
 import PropTypes from 'prop-types'
 import storage from './Storage.js'
 import ProjectDetail from './ProjectDetail.js'
+import AddComment from './AddComment.js'
 
 const styles = StyleSheet.create({
   container: {
@@ -45,7 +46,17 @@ export default class ProjectList extends Component {
           keyExtractor={ (item) => item }
           renderItem={ ({item}) => 
             <TouchableHighlight
-              onPress={ () => this.navigateTo({ component: ProjectDetail, title: item, passProps: { id: item } }) }
+              onPress={ () => this.navigateTo({
+                component: ProjectDetail,
+                title: item,
+                rightButtonTitle: '+1',
+                passProps: { id: item },
+                onRightButtonPress: () => this.navigateTo({
+                  component: AddComment,
+                  title: `添加${ item }备注`,
+                  passProps: { id: item }
+                })
+              }) }
               underlayColor='#ededed'>
               <View style={ styles.item }>
                 <Text style={{ lineHeight: 30, }}>{ item }</Text>
