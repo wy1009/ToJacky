@@ -6,7 +6,6 @@ import ProjectList from './app/ProjectList.js'
 import AddProject from './app/AddProject.js'
 
 export default class ToJacky extends Component {
-
   addProject () {
     this.refs.nav.push({
       component: AddProject,

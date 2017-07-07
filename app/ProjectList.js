@@ -27,15 +27,19 @@ export default class ProjectList extends Component {
     this.state = {
       projectList: [],
     }
-    storage.getIdsForKey('project').then(projectList => {
-      this.setState({
-        projectList: projectList
-      })
-    })
+    this.getList()
   }
 
   navigateTo (route) {
     this.props.navigator.push(route)
+  }
+
+  getList () {
+    storage.getIdsForKey('project').then(projectList => {
+      this.setState({
+        projectList: projectList,
+      })
+    })
   }
 
   render () {
