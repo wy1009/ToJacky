@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, DeviceEventEmitter } from 'react-native'
 import storage from './Storage.js'
 
 const styles = StyleSheet.create({
@@ -61,6 +61,8 @@ export default class AddProject extends Component {
       data: {
         comments: []
       }
+    }).then(ret => {
+      DeviceEventEmitter.emit('projectListRefresh')
     })
 
     this.props.navigator.pop()
@@ -75,7 +77,10 @@ export default class AddProject extends Component {
         <View style={ styles.item }>
           <TextInput
             style={ [styles.input, this.state.tipsShow ? styles.red : null ] }
-            onChangeText={ (projectName) => this.setState({ projectName, tipsShow: false }) } />
+            onChangeText={ (projectName) => {
+              this.state.projectName = projectName
+              this.state.tipsShow && this.setState({ tipsShow: false })
+            } } />
         { this.state.tipsShow ? <Text style={ styles.tips }>请输入项目名称</Text> : null }
         </View>
         <View style={ styles.item }>

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, FlatList, TouchableHighlight } from 'react-native'
+import { View, Text, StyleSheet, FlatList, TouchableHighlight, DeviceEventEmitter } from 'react-native'
 import PropTypes from 'prop-types'
 import storage from './Storage.js'
 import ProjectDetail from './ProjectDetail.js'
@@ -30,6 +30,15 @@ export default class ProjectList extends Component {
     this.getList()
   }
 
+  // 钩子函数
+  componentDidMount () {
+    DeviceEventEmitter.addListener('projectListRefresh', () => this.getList())
+  }
+
+  componentWillUnmount () {
+    DeviceEventEmitter.remove()
+  }
+
   navigateTo (route) {
     this.props.navigator.push(route)
   }
@@ -47,6 +56,7 @@ export default class ProjectList extends Component {
       <View style={ styles.container }>
         <FlatList
           data={ this.state.projectList }
+          extraData={ this.state }
           keyExtractor={ (item) => item }
           renderItem={ ({item}) => 
             <TouchableHighlight

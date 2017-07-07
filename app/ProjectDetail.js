@@ -34,7 +34,6 @@ export default class ProjectDetail extends Component {
       this.setState({
         commentList: ret.comments
       })
-      console.log(typeof ret.comments[0].createTime)
     })
   }
 
