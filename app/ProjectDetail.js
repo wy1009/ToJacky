@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text, FlatList, TouchableOpacity, DeviceEventEmitter } from 'react-native'
 import storage from './Storage.js'
 
 const styles = StyleSheet.create({
@@ -27,6 +27,16 @@ export default class ProjectDetail extends Component {
       commentList: []
     }
 
+    this.getDetail()
+  }
+
+  // 钩子函数
+  componentDidMount () {
+    DeviceEventEmitter.addListener('projectDetailRefresh', () => this.getDetail())
+  }
+
+  // 其他函数
+  getDetail () {
     storage.load({
       key: 'project',
       id: this.props.id,
@@ -34,6 +44,7 @@ export default class ProjectDetail extends Component {
       this.setState({
         commentList: ret.comments
       })
+      console.log(this.state.commentList)
     })
   }
 
@@ -50,17 +61,18 @@ export default class ProjectDetail extends Component {
         <FlatList
           data={ this.state.commentList }
           extraData={ this.state }
+          keyExtractor={ (item) => item.createTime }
           renderItem={ ({ item, index }) => 
             <View>
               <TouchableOpacity
                 style={ styles.label }
                 onPress={ () => this.toggleContentShow(index) }>
-                <Text style={{ lineHeight: 30, }}>{ item.createTime }</Text>
+                <Text style={{ lineHeight: 30, }}>{ new Date(item.createTime).getFullYear() }</Text>
               </TouchableOpacity>
               {
                 item.visible ? (
                   <View style={ styles.content }>
-                    <Text>内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容</Text>
+                    <Text>{ item.content }</Text>
                   </View>
                 ) : null
               }

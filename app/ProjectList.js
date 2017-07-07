@@ -35,10 +35,7 @@ export default class ProjectList extends Component {
     DeviceEventEmitter.addListener('projectListRefresh', () => this.getList())
   }
 
-  componentWillUnmount () {
-    DeviceEventEmitter.remove()
-  }
-
+  // 其他函数
   navigateTo (route) {
     this.props.navigator.push(route)
   }

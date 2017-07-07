@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, TextInput, TouchableOpacity } from 'react-native'
+import { StyleSheet, View, Text, TextInput, TouchableOpacity, DeviceEventEmitter } from 'react-native'
 import storage from './Storage.js'
 
 const styles = StyleSheet.create({
@@ -49,6 +49,9 @@ export default class AddComment extends Component {
         key: 'project',
         id: this.props.id,
         data: ret,
+      }).then(() => {
+        DeviceEventEmitter.emit('projectDetailRefresh')
+        this.props.navigator.pop()
       })
     })
   }
@@ -60,7 +63,9 @@ export default class AddComment extends Component {
           <TextInput
             multiline={ true }
             style={ styles.input }
-            onChangeText={ (content) => this.setState({ content }) } />
+            onChangeText={ (content) => {
+              this.state.content = content
+            } } />
         </View>
         <TouchableOpacity onPress={ () => this.submit() }><Text style={ styles.button }>确定</Text></TouchableOpacity>
       </View>
