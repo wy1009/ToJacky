@@ -32,27 +32,44 @@ export default class AddComment extends Component {
     super(props)
     this.state = {
       content: '',
+      projectDetail: {},
     }
+    
+    this.getCommentList()
   }
 
-  submit () {
+  getCommentList () {
+    console.log(this.props)
     storage.load({
       key: 'project',
       id: this.props.id,
     }).then(ret => {
-      ret.comments.unshift({
+      this.setState({ projectDetail: ret })
+    })
+  }
+
+  submit () {
+    let nowTime = new Date().getTime() // 当前时间毫秒数
+    if (this.props.index === undefined) {
+      this.state.projectDetail.comments.unshift({
         content: this.state.content,
-        createTime: new Date().getTime(),
-        updateTime: new Date().getTime(),
+        createTime: nowTime,
+        updateTime: nowTime,
       })
-      storage.save({
-        key: 'project',
-        id: this.props.id,
-        data: ret,
-      }).then(() => {
-        DeviceEventEmitter.emit('projectDetailRefresh')
-        this.props.navigator.pop()
+    } else {
+      Object.assign(this.state.projectDetail.comments[this.props.index], {
+        content: this.state.content,
+        updateTime: nowTime,
       })
+    }
+    
+    storage.save({
+      key: 'project',
+      id: this.props.id,
+      data: this.state.projectDetail,
+    }).then(() => {
+      DeviceEventEmitter.emit('projectDetailRefresh')
+      this.props.navigator.pop()
     })
   }
 
@@ -63,6 +80,7 @@ export default class AddComment extends Component {
           <TextInput
             multiline={ true }
             style={ styles.input }
+            defaultValue={ this.state.projectDetail.comments && this.props.index !== undefined ? this.state.projectDetail.comments[this.props.index].content : '' }
             onChangeText={ (content) => {
               this.state.content = content
             } } />

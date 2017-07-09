@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, View, Text, FlatList, TouchableOpacity, DeviceEventEmitter } from 'react-native'
 import storage from './Storage.js'
+import AddComment from './AddComment.js'
 
 const styles = StyleSheet.create({
   container: {
@@ -67,6 +68,16 @@ export default class ProjectDetail extends Component {
                 style={ styles.label }
                 onPress={ () => this.toggleContentShow(index) }>
                 <Text style={{ lineHeight: 30, }}>{ `${new Date(item.createTime).getFullYear()}年${new Date(item.createTime).getMonth()}月${new Date(item.createTime).getDate()}日` }</Text>
+                <TouchableOpacity
+                  onPress={ () => this.props.navigator.push({
+                    component: AddComment,
+                    title: `修改${ this.props.id }备注`,
+                    passProps: {
+                      id: this.props.id,
+                      index: index,
+                    }
+                  }) }><Text>修改</Text></TouchableOpacity>
+                <TouchableOpacity><Text>删除</Text></TouchableOpacity>
               </TouchableOpacity>
               {
                 item.visible ? (
