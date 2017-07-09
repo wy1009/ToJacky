@@ -40,7 +40,7 @@ export default class AddComment extends Component {
       key: 'project',
       id: this.props.id,
     }).then(ret => {
-      ret.comments.push({
+      ret.comments.unshift({
         content: this.state.content,
         createTime: new Date().getTime(),
         updateTime: new Date().getTime(),

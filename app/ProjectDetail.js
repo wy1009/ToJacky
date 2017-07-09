@@ -44,7 +44,6 @@ export default class ProjectDetail extends Component {
       this.setState({
         commentList: ret.comments
       })
-      console.log(this.state.commentList)
     })
   }
 
@@ -67,7 +66,7 @@ export default class ProjectDetail extends Component {
               <TouchableOpacity
                 style={ styles.label }
                 onPress={ () => this.toggleContentShow(index) }>
-                <Text style={{ lineHeight: 30, }}>{ new Date(item.createTime).getFullYear() }</Text>
+                <Text style={{ lineHeight: 30, }}>{ `${new Date(item.createTime).getFullYear()}年${new Date(item.createTime).getMonth()}月${new Date(item.createTime).getDate()}日` }</Text>
               </TouchableOpacity>
               {
                 item.visible ? (
