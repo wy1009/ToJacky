@@ -12,6 +12,8 @@ const styles = StyleSheet.create({
     borderBottomColor: '#ededed',
     paddingHorizontal: 10,
     marginHorizontal: 5,
+    justifyContent: 'space-between',
+    flexDirection: 'row',
   },
   content: {
     padding: 10,
@@ -67,17 +69,21 @@ export default class ProjectDetail extends Component {
               <TouchableOpacity
                 style={ styles.label }
                 onPress={ () => this.toggleContentShow(index) }>
-                <Text style={{ lineHeight: 30, }}>{ `${new Date(item.createTime).getFullYear()}年${new Date(item.createTime).getMonth()}月${new Date(item.createTime).getDate()}日` }</Text>
-                <TouchableOpacity
-                  onPress={ () => this.props.navigator.push({
-                    component: AddComment,
-                    title: `修改${ this.props.id }备注`,
-                    passProps: {
-                      id: this.props.id,
-                      index: index,
-                    }
-                  }) }><Text>修改</Text></TouchableOpacity>
-                <TouchableOpacity><Text>删除</Text></TouchableOpacity>
+                <View>
+                  <Text style={{ lineHeight: 30, }}>{ `${new Date(item.createTime).getFullYear()}年${new Date(item.createTime).getMonth()}月${new Date(item.createTime).getDate()}日` }</Text>
+                </View>
+                <View style={{ flexDirection: 'row', }}>
+                  <TouchableOpacity
+                    onPress={ () => this.props.navigator.push({
+                      component: AddComment,
+                      title: `修改${ this.props.id }备注`,
+                      passProps: {
+                        id: this.props.id,
+                        index: index,
+                      }
+                    }) }><Text style={{ lineHeight: 30, }}>修改</Text></TouchableOpacity>
+                  <TouchableOpacity style={{ marginLeft: 10, }}><Text style={{ lineHeight: 30, }}>删除</Text></TouchableOpacity>
+                </View>
               </TouchableOpacity>
               {
                 item.visible ? (
