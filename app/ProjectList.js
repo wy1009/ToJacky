@@ -28,6 +28,7 @@ export default class ProjectList extends Component {
     this.state = {
       projectList: [],
       modalVisible: true,
+      selectedProject: '',
     }
     this.getList()
   }
@@ -50,12 +51,17 @@ export default class ProjectList extends Component {
     })
   }
 
+  delProject () {
+    
+  }
+
   render () {
     return (
       <View style={ styles.container }>
         <TipsModal
           visible={ this.state.modalVisible }
-          handleVisible={ (visible) => this.setState({ modalVisible: visible }) }></TipsModal>
+          handleVisible={ (visible) => this.setState({ modalVisible: visible }) }
+          pressOk={ () => this.delProject() }></TipsModal>
         <FlatList
           data={ this.state.projectList }
           extraData={ this.state }
