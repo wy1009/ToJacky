@@ -4,10 +4,11 @@ import PropTypes from 'prop-types'
 import storage from './Storage.js'
 import ProjectDetail from './ProjectDetail.js'
 import AddComment from './AddComment.js'
+import TipsModal from './components/Modal.js'
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
   item: {
     borderBottomWidth: 1,
@@ -26,6 +27,7 @@ export default class ProjectList extends Component {
     super(props)
     this.state = {
       projectList: [],
+      modalVisible: true,
     }
     this.getList()
   }
@@ -51,6 +53,9 @@ export default class ProjectList extends Component {
   render () {
     return (
       <View style={ styles.container }>
+        <TipsModal
+          visible={ this.state.modalVisible }
+          handleVisible={ (visible) => this.setState({ modalVisible: visible }) }></TipsModal>
         <FlatList
           data={ this.state.projectList }
           extraData={ this.state }

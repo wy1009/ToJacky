@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { StyleSheet, View, Text, FlatList, TouchableOpacity, DeviceEventEmitter } from 'react-native'
+import { StyleSheet, View, Text, FlatList, TouchableOpacity, DeviceEventEmitter, Modal } from 'react-native'
 import storage from './Storage.js'
 import AddComment from './AddComment.js'
 
@@ -27,7 +27,8 @@ export default class ProjectDetail extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      commentList: []
+      commentList: [],
+      modalVisible: true,
     }
 
     this.getDetail()
