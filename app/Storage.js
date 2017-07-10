@@ -14,6 +14,7 @@ export default storage
 
 'project': {
   projectName: {
+    projectName: '',
     comments: [{
       content: '',
       updateTime: '',

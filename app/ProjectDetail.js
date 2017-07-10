@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Text, FlatList, TouchableOpacity, DeviceEventEmitter, Modal } from 'react-native'
 import storage from './Storage.js'
 import AddComment from './AddComment.js'
+import util from './assets/util.js'
 
 const styles = StyleSheet.create({
   container: {
@@ -29,6 +30,7 @@ export default class ProjectDetail extends Component {
     this.state = {
       commentList: [],
       modalVisible: true,
+      eventEmitter: null,
     }
 
     this.getDetail()
@@ -36,18 +38,31 @@ export default class ProjectDetail extends Component {
 
   // 钩子函数
   componentDidMount () {
-    DeviceEventEmitter.addListener('projectDetailRefresh', () => this.getDetail())
+    this.state.eventEmitter = DeviceEventEmitter.addListener('projectDetailRefresh', (index) => {
+      new Promise((resolve, reject) => {
+        this.getDetail(resolve)
+      }).then(() => {
+        this.toggleContentShow(index || 0)
+      })
+    })
+  }
+
+  componentWillUnmount () {
+    this.state.eventEmitter.remove()
   }
 
   // 其他函数
-  getDetail () {
+  getDetail (cb, args) {
     storage.load({
       key: 'project',
       id: this.props.id,
     }).then(ret => {
       this.setState({
-        commentList: ret.comments
+        commentList: util.copyObj(ret.comments)
       })
+      if (cb) {
+        cb()
+      }
     })
   }
 
@@ -56,6 +71,11 @@ export default class ProjectDetail extends Component {
     this.setState({
       commentList: this.state.commentList
     })
+    console.log(this.state.commentList)
+  }
+
+  delComment () {
+
   }
 
   render () {

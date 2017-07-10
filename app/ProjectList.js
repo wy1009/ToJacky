@@ -32,13 +32,18 @@ export default class ProjectList extends Component {
       projectList: [],
       modalVisible: false,
       selectedProject: '',
+      eventEmitter: null,
     }
     this.getList()
   }
 
   // 钩子函数
   componentDidMount () {
-    DeviceEventEmitter.addListener('projectListRefresh', () => this.getList())
+    this.state.eventEmitter = DeviceEventEmitter.addListener('projectListRefresh', () => this.getList())
+  }
+
+  componentWillUnmount () {
+    this.state.eventEmitter.remove()
   }
 
   // 其他函数
@@ -49,13 +54,24 @@ export default class ProjectList extends Component {
   getList () {
     storage.getIdsForKey('project').then(projectList => {
       this.setState({
-        projectList: projectList.reverse(),
+        projectList: projectList.slice().reverse(),
       })
     })
   }
 
+  beforeDelProject (projectName) {
+    this.state.selectedProject = projectName
+    this.setState({ modalVisible: true })
+  }
+
   delProject () {
-    
+    storage.remove({
+      key: 'project',
+      id: this.state.selectedProject,
+    }).then(() => {
+      this.getList()
+      this.setState({ modalVisible: false })
+    })
   }
 
   render () {
@@ -95,7 +111,8 @@ export default class ProjectList extends Component {
                         type: 'update',
                       },
                     }) }><Text style={{ lineHeight: 30 }}>修改</Text></TouchableOpacity>
-                  <TouchableOpacity style={{ marginLeft: 10 }}><Text style={{ lineHeight: 30 }}>删除</Text></TouchableOpacity>
+                  <TouchableOpacity style={{ marginLeft: 10 }}
+                    onPress={ () => this.beforeDelProject(item) }><Text style={{ lineHeight: 30 }}>删除</Text></TouchableOpacity>
                 </View>
               </View>
             </TouchableHighlight>

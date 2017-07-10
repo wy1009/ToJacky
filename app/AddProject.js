@@ -82,6 +82,7 @@ export default class AddProject extends Component {
         key: 'project',
         id: this.state.projectName,
         data: {
+          projectName: this.state.projectName,
           comments: [],
         },
       }).then(ret => {

@@ -39,7 +39,6 @@ export default class AddComment extends Component {
   }
 
   getCommentList () {
-    console.log(this.props)
     storage.load({
       key: 'project',
       id: this.props.id,
@@ -68,7 +67,7 @@ export default class AddComment extends Component {
       id: this.props.id,
       data: this.state.projectDetail,
     }).then(() => {
-      DeviceEventEmitter.emit('projectDetailRefresh')
+      DeviceEventEmitter.emit('projectDetailRefresh', this.props.index)
       this.props.navigator.pop()
     })
   }
