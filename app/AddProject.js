@@ -44,7 +44,17 @@ export default class AddProject extends Component {
     this.state = {
       projectName: '',
       tipsShow: false,
+      projectDetail: {}, // 项目的全部信息，因为哪怕只更新一项，也要整体更新，因此必须先取出全部信息
     }
+  }
+
+  getProjectDetail () {
+    storage.load({
+      key: 'project',
+      id: this.props.id
+    }).then(ret => {
+      this.projectDetail = ret
+    })
   }
 
   submit () {
@@ -55,15 +65,29 @@ export default class AddProject extends Component {
       return
     }
     
-    storage.save({
-      key: 'project',
-      id: this.state.projectName,
-      data: {
-        comments: []
-      }
-    }).then(ret => {
-      DeviceEventEmitter.emit('projectListRefresh')
-    })
+    if (this.props.type == 'update') {
+      storage.remove({
+        key: 'project',
+        id: this.props.id
+      })
+      storage.save({
+        key: 'project',
+        id: this.state.projectName,
+        data: this.state.projectDetail,
+      }).then(ret => {
+        DeviceEventEmitter.emit('projectListRefresh')
+      })
+    } else {
+      storage.save({
+        key: 'project',
+        id: this.state.projectName,
+        data: {
+          comments: [],
+        },
+      }).then(ret => {
+        DeviceEventEmitter.emit('projectListRefresh')
+      })
+    }
 
     this.props.navigator.pop()
   }

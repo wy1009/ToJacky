@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { View, Text, StyleSheet, FlatList, TouchableHighlight, DeviceEventEmitter } from 'react-native'
+import { View, Text, StyleSheet, FlatList, TouchableHighlight, DeviceEventEmitter, TouchableOpacity } from 'react-native'
 import PropTypes from 'prop-types'
 import storage from './Storage.js'
 import ProjectDetail from './ProjectDetail.js'
 import AddComment from './AddComment.js'
 import TipsModal from './components/TipsModal.js'
+import AddProject from './app/AddProject.js'
 
 const styles = StyleSheet.create({
   container: {
@@ -13,8 +14,10 @@ const styles = StyleSheet.create({
   item: {
     borderBottomWidth: 1,
     borderBottomColor: '#ededed',
-    paddingLeft: 10,
+    paddingHorizontal: 10,
     marginHorizontal: 5,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 })
 
@@ -27,7 +30,7 @@ export default class ProjectList extends Component {
     super(props)
     this.state = {
       projectList: [],
-      modalVisible: true,
+      modalVisible: false,
       selectedProject: '',
     }
     this.getList()
@@ -76,12 +79,24 @@ export default class ProjectList extends Component {
                 onRightButtonPress: () => this.navigateTo({
                   component: AddComment,
                   title: `添加${ item }备注`,
-                  passProps: { id: item }
-                })
+                  passProps: { id: item },
+                }),
               }) }
               underlayColor='#ededed'>
               <View style={ styles.item }>
                 <Text style={{ lineHeight: 30, }}>{ item }</Text>
+                <View style={{ flexDirection: 'row', }}>
+                  <TouchableOpacity
+                    onPress={ () => this.navigateTo({
+                      component: AddProject,
+                      title: `修改${ item }信息`,
+                      passProps: {
+                        id: item,
+                        type: 'update',
+                      },
+                    }) }><Text style={{ lineHeight: 30 }}>修改</Text></TouchableOpacity>
+                  <TouchableOpacity style={{ marginLeft: 10 }}><Text style={{ lineHeight: 30 }}>删除</Text></TouchableOpacity>
+                </View>
               </View>
             </TouchableHighlight>
           }
