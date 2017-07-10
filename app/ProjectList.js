@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import storage from './Storage.js'
 import ProjectDetail from './ProjectDetail.js'
 import AddComment from './AddComment.js'
-import TipsModal from './components/Modal.js'
+import TipsModal from './components/TipsModal.js'
 
 const styles = StyleSheet.create({
   container: {
