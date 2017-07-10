@@ -53,7 +53,7 @@ export default class AddProject extends Component {
       key: 'project',
       id: this.props.id
     }).then(ret => {
-      this.projectDetail = ret
+      this.state.projectDetail = ret
     })
   }
 

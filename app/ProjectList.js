@@ -49,7 +49,7 @@ export default class ProjectList extends Component {
   getList () {
     storage.getIdsForKey('project').then(projectList => {
       this.setState({
-        projectList: projectList,
+        projectList: projectList.reverse(),
       })
     })
   }
