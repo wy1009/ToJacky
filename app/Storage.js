@@ -8,3 +8,18 @@ let storage = new Storage({
 })
 
 export default storage
+
+
+/*
+
+'project': {
+  projectName: {
+    comments: [{
+      content: '',
+      updateTime: '',
+      createTime: '',
+    }],
+  }
+}
+
+*/

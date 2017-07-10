@@ -42,7 +42,7 @@ export default class AddProject extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      projectName: '',
+      projectName: '', // 输入的内容
       tipsShow: false,
       projectDetail: {}, // 项目的全部信息，因为哪怕只更新一项，也要整体更新，因此必须先取出全部信息
     }
@@ -100,6 +100,7 @@ export default class AddProject extends Component {
         </View>
         <View style={ styles.item }>
           <TextInput
+            defaultValue={ this.props.id }
             style={ [styles.input, this.state.tipsShow ? styles.red : null ] }
             onChangeText={ (projectName) => {
               this.state.projectName = projectName

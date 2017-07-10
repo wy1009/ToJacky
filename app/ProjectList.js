@@ -5,7 +5,7 @@ import storage from './Storage.js'
 import ProjectDetail from './ProjectDetail.js'
 import AddComment from './AddComment.js'
 import TipsModal from './components/TipsModal.js'
-import AddProject from './app/AddProject.js'
+import AddProject from './AddProject.js'
 
 const styles = StyleSheet.create({
   container: {
