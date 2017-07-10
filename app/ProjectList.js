@@ -79,7 +79,7 @@ export default class ProjectList extends Component {
       <View style={ styles.container }>
         <TipsModal
           visible={ this.state.modalVisible }
-          handleVisible={ (visible) => this.setState({ modalVisible: visible }) }
+          pressCancel={ () => this.setState({ modalVisible: false }) }
           pressOk={ () => this.delProject() }></TipsModal>
         <FlatList
           data={ this.state.projectList }

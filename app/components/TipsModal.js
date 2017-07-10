@@ -56,7 +56,7 @@ export default class TipsModal extends Component {
             <View><Text style={ [styles.title, styles.font] }>确定要删除吗？</Text></View>
             <View style={ styles.btnWrap }>
               <TouchableOpacity style={ styles.btn }
-                onPress={ () => this.props.handleVisible(false) }>
+                onPress={ () => this.props.pressCancel() }>
                 <Text style={ [styles.btnText, styles.font] }>取消</Text>
               </TouchableOpacity>
               <TouchableOpacity style={ [styles.btn, styles.btnBorder] }

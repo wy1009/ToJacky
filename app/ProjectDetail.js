@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { StyleSheet, View, Text, FlatList, TouchableOpacity, DeviceEventEmitter, Modal } from 'react-native'
 import storage from './Storage.js'
 import AddComment from './AddComment.js'
+import TipsModal from './components/TipsModal.js'
 import util from './assets/util.js'
 
 const styles = StyleSheet.create({
@@ -29,8 +30,9 @@ export default class ProjectDetail extends Component {
     super(props)
     this.state = {
       commentList: [],
-      modalVisible: true,
+      modalVisible: false,
       eventEmitter: null,
+      selectedComment: '',
     }
 
     this.getDetail()
@@ -52,7 +54,7 @@ export default class ProjectDetail extends Component {
   }
 
   // 其他函数
-  getDetail (cb, args) {
+  getDetail (cb) {
     storage.load({
       key: 'project',
       id: this.props.id,
@@ -74,13 +76,36 @@ export default class ProjectDetail extends Component {
     console.log(this.state.commentList)
   }
 
-  delComment () {
+  beforeDel (index) {
+    this.state.selectedComment = index
+    this.setState({
+      modalVisible: true,
+    })
+  }
 
+  delComment () {
+    storage.load({
+      key: 'project',
+      id: this.props.id,
+    }).then(ret => {
+      ret.comments.splice(this.state.selectedComment, 1)
+      storage.save({
+        key: 'project',
+        id: this.props.id,
+        data: ret
+      }).then(() => this.getDetail())
+    })
+    this.setState({
+      modalVisible: false,
+    })
   }
 
   render () {
     return (
       <View style={ styles.container }>
+        <TipsModal visible={ this.state.modalVisible }
+          pressOk={ () => this.delComment() }
+          pressCancel={ (visible) => this.setState({ modalVisible: false }) }></TipsModal>
         <FlatList
           data={ this.state.commentList }
           extraData={ this.state }
@@ -103,7 +128,8 @@ export default class ProjectDetail extends Component {
                         index: index,
                       }
                     }) }><Text style={{ lineHeight: 30, }}>修改</Text></TouchableOpacity>
-                  <TouchableOpacity style={{ marginLeft: 10, }}><Text style={{ lineHeight: 30, }}>删除</Text></TouchableOpacity>
+                  <TouchableOpacity style={{ marginLeft: 10, }}
+                    onPress={ () => this.beforeDel(index) }><Text style={{ lineHeight: 30, }}>删除</Text></TouchableOpacity>
                 </View>
               </TouchableOpacity>
               {
